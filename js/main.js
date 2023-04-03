@@ -258,33 +258,40 @@ var prod =
 
 //getProducto().then( (prod)=> console.log(prod)).catch( (err)=>console.log(err.message));
 
-let cards;
 let rows = document.getElementsByClassName("row");
 let index = 0; 
+let cards = [];
 let card = "";
+let contador = 0;
 window.addEventListener("load", function(event){
         event.preventDefault();
         var productos = JSON.parse(JSON.stringify(prod));
         return new Promise((resolve, reject) =>{  
             if(productos == null){
                 reject(new Error("Productos no existen"));
-            }else{
-                //console.log(productos[0].title);
-                //cards.forEach
-                cards = `<div class="card>"
-                    <img src=" ${productos[index].image} " class="card-img-top" alt="..." /> 
-                    <div class="card-body cardBody">
-                    <h1 class="card-title"> ${productos[index].title} </h1>
-                    <h2 class="card-title">${productos[index].category}</h2>
-                    <a class="btn btnMore" data-bs-toggle="modal" data-bs-target="#modalLorem3" >Ver más </a>
-                    </div>
-                    </div>
-                    `;
-                    rows[index].insertAdjacentHTML("afterbegin",cards);
-                //do{
-                    
-                //}while(index<20);
-            }
+            }     
+                   productos.forEach(producto =>{
+                     card = `<div class = "col-md-3">
+                     <div class="card" >
+                     <img src=" ${producto.image}" class="card-img-top" alt="..." /> 
+                     <div class="card-body cardBody">
+                     <h1 class="card-title"> ${producto.title} </h1>
+                     <h2 class="card-title">${producto.category}</h2>
+                     <a class="btn btnMore btn-primary" data-bs-toggle="modal" data-bs-target="#modalLorem3" >Ver más </a>
+                     </div>
+                     </div>
+                     </div>`;
+                     if(index==4){
+                        contador +=1;
+                        index = 0;
+                     }
+                     rows[contador].insertAdjacentHTML("afterbegin", card);
+                     index++;
+                     
+                   });
+
+
+
+            
         })
 });
-
