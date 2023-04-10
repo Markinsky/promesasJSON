@@ -271,12 +271,13 @@ window.addEventListener("load", function(event){
                 reject(new Error("Productos no existen"));
             }     
                    productos.forEach(producto =>{
-                     card = `<div class = "col-md-3">
-                     <div class="card" >
+                     card = `<div class = "col-sm-3">
+                     <div class="card m-3" >
                      <img src=" ${producto.image}" class="card-img-top" alt="..." /> 
                      <div class="card-body cardBody">
                      <h1 class="card-title"> ${producto.title} </h1>
                      <h2 class="card-title">${producto.category}</h2>
+                     <p class="card-text">${producto.description} </p>
                      <a class="btn btnMore btn-primary" data-bs-toggle="modal" data-bs-target="#modalLorem3" >Ver más </a>
                      </div>
                      </div>
