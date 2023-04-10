@@ -263,9 +263,11 @@ let index = 0;
 let cards = [];
 let card = "";
 let contador = 0;
+/*
 window.addEventListener("load", function(event){
         event.preventDefault();
-        var productos = JSON.parse(JSON.stringify(prod));
+        //var productos = JSON.parse(JSON.stringify(prod));
+        var productos = getProducto();
         return new Promise((resolve, reject) =>{  
             if(productos == null){
                 reject(new Error("Productos no existen"));
@@ -296,3 +298,76 @@ window.addEventListener("load", function(event){
             
         })
 });
+*/ 
+
+function getProducto(){
+   let promesa = fetch("http://fakestoreapi.com/products",{
+         method: "GET"
+   });
+   promesa.then( (response) =>{
+      response.json().then( (prods) =>{
+         //Crear cards
+         //console.log("prods=>json()");
+         //console.log(prods);
+         return new Promise((resolve, reject) =>{  
+            if(prods == null){
+                reject(new Error("Productos no existen"));
+            }     
+                   prods.forEach(producto =>{
+                     card = `<div class = "col-sm-3">
+                     <div class="card m-3" >
+                     <img src=" ${producto.image}" class="card-img-top" alt="..." /> 
+                     <div class="card-body cardBody">
+                     <h1 class="card-title"> ${producto.title} </h1>
+                     <h2 class="card-title">${producto.category}</h2>
+                     <p class="card-text">${producto.description} </p>
+                     <a class="btn btnMore btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal_${producto.id}" >Ver más </a>
+                     </div>
+                     </div>
+                     </div>
+                     
+                     <div class="modal fade" id="exampleModal_${producto.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel"> ${producto.title} </h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                               <p> ${producto.description}</p>
+                               <label><strong> ${producto.price}</strong></label>
+                              </div>
+                              <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                              </div>
+                           </div>
+                        </div>
+                        </div>
+                     `;
+                     if(index==4){
+                        contador +=1;
+                        index = 0;
+                     }
+                     rows[contador].insertAdjacentHTML("afterbegin", card);
+                     index++;
+                     
+                   });
+
+
+
+            
+        })
+
+
+
+      }).catch( (err) =>{
+         console.log("Error en el formato de la respuesta " + err);
+      });
+   }).catch((error ) =>{
+      console.log("Error en la respuesa" + error);
+   });
+
+
+}
+
+getProducto();
